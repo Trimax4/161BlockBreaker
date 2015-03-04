@@ -6,7 +6,7 @@ class Physic
 {  
    
    public:
-      Physic(SDL_Rect ball);
+      Physic(Entity ball);
       bool checkForCollision(std::vector<Entity> blocks, int nextX, int nextY);
 
 
