@@ -38,7 +38,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Users\btelliar\Desktop\SDL\SDL2_mixer-2.0.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\btelliar\Desktop\SDL\SDL2_mixer-2.0.0\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -49,7 +52,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Users\btelliar\Desktop\SDL\SDL2-2.0.3\VisualC\SDLmain\Win32\Debug;C:\Users\btelliar\Desktop\SDL\SDL2-2.0.3\VisualC\SDL\Win32\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2main.lib;SDL2_image.lib</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_ttf.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
