@@ -80,6 +80,7 @@
     <ClCompile Include="SpriteDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Physics.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprite.h" />
   </ItemGroup>
