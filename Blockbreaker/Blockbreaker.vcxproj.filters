@@ -24,7 +24,7 @@
     <ClCompile Include="SpriteDemo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\GameEngine\MyProjects\Physics\Physics\Physics.cpp">
+    <ClCompile Include="Physics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
