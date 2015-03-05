@@ -6,12 +6,12 @@ class Physic
 {  
    
    public:
-      Physic(Entity ball);
-      bool checkForCollision(std::vector<Entity> blocks, int nextX, int nextY);
+      Physic(int ballWidth, int ballHeight);
+      bool checkForCollision(int objectWidth, int objectHeight, int objectX, int objectY, int nextX, int nextY);
       void changeXDirection(double* x);
       void changeYDirection(double* y);
-      void changeXSpeed(double* x);
-      void changeYSpeed(double* y);
+      void changeXSpeed(double* x, double newSpeed);
+      void changeYSpeed(double* y, double newSpeed);
 
    private:
       int ballWidth;

@@ -2,74 +2,78 @@
 #include "Entity.h"
 
 
-Physic::Physic(Entity ball)
+Physic::Physic(int ballWidth, int ballHeight)
 {
-   ballWidth = ball.getW();
-   ballHeight = ball.getH();
+   ballWidth = ballWidth;
+   ballHeight = ballHeight;
 }
-bool Physic::checkForCollision(std::vector<Entity> blocks, int nextX, int nextY)
+
+void changeXDirection(double* x)
+{
+   *x = -1 * (*x);
+}
+
+void changeYDirection(double* y)
+{
+   *y = -1 * (*y);
+}
+
+bool Physic::checkForCollision(int objectWidth, int objectHeight, int objectX, int objectY, int nextX, int nextY)
 {
 
    int x = nextX;
 
    for (int i = 0; i < ballHeight; i++)
-      //from the top of the paddle to the bottom
    {
+
       x = nextX;
 
       if (i == 0 || i == ballHeight - 1)
-         //if at top edge or bottom edge
       {
          for (int j = nextX; j <= nextX + ballWidth; j++)
-            //from left edge to right edge
          {
-            for (int z = 0; z < blocks.size(); z++)
-               //increment through all the blocks
+
+            if (j >= objectX && j <= objectX + objectWidth)
             {
-               if (j >= blocks[z].getX() && j <= blocks[z].getX() + blocks[z].getW())
-                  //if x coordinate of point between a blocks left x and right x
+               if (nextY >= objectY && nextY <= objectY + objectHeight)
                {
-                  if (nextY >= blocks[z].getY() && nextY <= blocks[z].getY() + blocks[z].getH())
-                     //if y coordinate of point between blocks top y and bottom y
-                  {
-                     return true; //there is an intersection
-                  }
+                  return true;
                }
             }
 
+
          }
       }
-      
-      else //if not at top edge or bottom edge
+
+
+      else
       {
-         for (int z = 0; z < blocks.size(); z++)
-            //go through vector of entities
+
+
+         if (x >= objectX && x <= objectX + objectWidth)
          {
-
-            //same logic as beforehand just in differen scenario
-            if (x >= blocks[z].getX() && x <= blocks[z].getX() + blocks[z].getW())
+            if (nextY >= objectY && nextY <= objectY + objectHeight)
             {
-               if (nextY >= blocks[z].getY() && nextY <= blocks[z].getY() + blocks[z].getH())
-               {
-                  return true;
-               }
-            }
-
-            else if (x + ballWidth >= blocks[z].getX() && x + ballWidth <= blocks[z].getX() + blocks[z].getW())
-               //if right edge between entities x and y
-            {
-               if (nextY >= blocks[z].getY() && nextY <= blocks[z].getY() + blocks[z].getH())
-               {
-                  return true;
-               }
+               return true;
             }
          }
-         
-         nextY += 1;
+
+         else if (x + ballWidth >= objectX && x + ballWidth <= objectX + objectWidth)
+         {
+            if (nextY >= objectY && nextY <= objectY + objectHeight)
+            {
+               return true;
+            }
+         }
       }
-      
+
+      nextY += 1;
+
+
    }
-   
+
+
+
    return false;
 
 }
