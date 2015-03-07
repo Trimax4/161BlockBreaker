@@ -7,6 +7,10 @@
 #include "SDL_image.h"
 #include "UI.h"
 
+void testFunction()
+{
+	std::cout << "HIIIII" << std::endl;
+}
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
@@ -151,6 +155,15 @@ int main(int argc, char **argv){
 		return 1;
 	}
 
+	SDL_Texture* sub_menu = loadTexture(resPath + "menu.png", renderer);
+	if (esc_menu == nullptr)
+	{
+		cleanup(esc_menu, renderer, window);
+		IMG_Quit();
+		SDL_Quit();
+		return 1;
+	}
+
 	UI* ui = new UI(renderer);
 
 	int x = SCREEN_WIDTH / 2;
@@ -159,19 +172,17 @@ int main(int argc, char **argv){
 
 	ui->makeMenu("esc_menu", esc_menu, 220, 45);
 
-	//ui->makeButton("test_button", idle_button, pushed_button, x, y);
-	//ui->makeButton("second_button", pushed_button, idle_button, 50, 50);
 	ui->makeButton("quit_button", quit_button, quit_button_pushed, 240, 275);
 	ui->makeButton("restart_button", restart_button, restart_button_pushed, 240, 185);
-	ui->makeButton("resume_button", resume_button, resume_button_pushed, 240, 95);
+	ui->makeButton("resume_button", resume_button, resume_button_pushed, 240, 95, &testFunction);
+	ui->makeMenu("sub_menu", sub_menu, 0, 0);
 
 
-	//ui->showText("TEST", resPath + "BLOCKUP.ttf", 50, 0, 0, renderer);
 
 
 	SDL_Event e;
 	bool flag = false;
-	bool textflag = false;
+	bool submenu_flag = false;
 	bool quit = false;
 	while (!quit){
 		//frames =+ 1;
@@ -189,10 +200,20 @@ int main(int argc, char **argv){
 					//that can pause the game
 
 					flag = !flag;
+					/*else
+					{
+					ui->toggleButtonClick("resume_button");
+					ui->useButton("resume_button");
+					}*/
 				}
 				else if (e.key.keysym.sym == SDLK_w)
 				{
-					textflag = !textflag;
+					ui->toggleButtonClick("resume_button");
+					ui->useButton("resume_button");
+				}
+				else if (e.key.keysym.sym == SDLK_e)
+				{
+					submenu_flag = !submenu_flag;
 				}
 			}
 		}
@@ -206,19 +227,18 @@ int main(int argc, char **argv){
 			ui->show("restart_button");
 			ui->show("quit_button");
 		}
-		else if (textflag == true)
+		if (submenu_flag == true)
 		{
-			ui->showText("TEST", resPath + "BLOCKUP.ttf", 100, 0, 50, renderer);
-		}
+			ui->show("sub_menu");
+			ui->showText("TEST", resPath + "BLOCKUP.ttf", 50, 35, 20, renderer);
 
-		ui->showText("TEST", resPath + "BLOCKUP.ttf", 50, 0, 0, renderer);
+		}
 		SDL_RenderPresent(renderer);
 	}
-
 	cleanup(esc_menu, quit_button, quit_button_pushed,
 		resume_button, resume_button_pushed,
 		restart_button, restart_button_pushed, renderer, window);
-
+	//cleanup(background, UIsheet, UIsheet2, UIsheet3, renderer, window);
 	IMG_Quit();
 	SDL_Quit();
 

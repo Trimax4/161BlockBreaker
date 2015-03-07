@@ -88,7 +88,7 @@ Creates a button for the UI
 @param x The x coordinate of the button's top left corner
 @param y The y coordinate of the button's top left corner
 */
-void UI::makeButton(std::string name, SDL_Texture* idle_frame, SDL_Texture* push_frame, int x, int y)
+void UI::makeButton(std::string name, SDL_Texture* idle_frame, SDL_Texture* push_frame, int x, int y, void(*buttonFunction)())
 {
 	buttonList[name].x = x;
 	buttonList[name].y = y;
@@ -98,6 +98,7 @@ void UI::makeButton(std::string name, SDL_Texture* idle_frame, SDL_Texture* push
 	SDL_QueryTexture(idle_frame, NULL, NULL, &buttonList[name].width, &buttonList[name].height);
 	buttonList[name].hStretch = 0;
 	buttonList[name].wStretch = 0;
+	buttonList[name].clickFunction = buttonFunction;
 
 }
 
@@ -119,9 +120,16 @@ Renders the specified element
 */
 void UI::show(std::string element)
 {
+	SDL_Texture* frameToShow;
 	if (buttonList.find(element) == buttonList.end())
 		return;
-	//if (isClicked) frameToShow = buttonlist active_texture
+	if (buttonList[element].isClicked)
+	{
+		frameToShow = buttonList[element].active_texture;
+	}
+	else
+		frameToShow = buttonList[element].idle_texture;
+
 	SDL_Rect destinationRect;
 	destinationRect.x = buttonList[element].x;
 	destinationRect.y = buttonList[element].y;
@@ -131,7 +139,26 @@ void UI::show(std::string element)
 		destinationRect.w = 1;
 	if (destinationRect.h <= 0)
 		destinationRect.h = 1;
-	SDL_RenderCopyEx(renderer, buttonList[element].idle_texture, NULL, &destinationRect, buttonList[element].angle, NULL, buttonList[element].flip);
+	SDL_RenderCopyEx(renderer, frameToShow, NULL, &destinationRect, buttonList[element].angle, NULL, buttonList[element].flip);
+}
+
+/*
+Toggles the requested button's click state
+*/
+void UI::toggleButtonClick(std::string element)
+{
+	buttonList[element].isClicked = !buttonList[element].isClicked;
+}
+
+/*
+Use the function of the requested button, if it has been activated, otherwise do nothing
+*/
+void UI::useButton(std::string element)
+{
+	if (buttonList[element].isClicked && buttonList[element].clickFunction != nullptr)
+	{
+		buttonList[element].clickFunction();
+	}
 }
 
 /*
@@ -256,7 +283,7 @@ void UI::showText(std::string text, std::string &fontName, int fontSize, int x, 
 		return;
 	}
 
-	SDL_Color color = { 255, 255, 255, 255 };
+	SDL_Color color = { 0, 0, 0, 0 };
 
 	SDL_Surface* textSurface = TTF_RenderText_Blended(font, text.c_str(), color);
 	if (textSurface == nullptr)
