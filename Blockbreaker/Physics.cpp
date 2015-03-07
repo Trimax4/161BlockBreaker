@@ -1,6 +1,15 @@
 #include "Physics.h"
 #include "Entity.h"
+#include <cmath>
 
+namespace
+{
+   double distance(int x1, int y1, int x2, int y2)
+   {
+      return std::sqrt(std::pow((double)x2 - (double)x1, 2) + std::pow((double)y2 - (double)y1, 2));
+   }
+
+}
 
 Physic::Physic(Entity* entity)
 {
@@ -84,4 +93,48 @@ bool Physic::checkForCollision(std::vector<Entity*> entities, int nextX, int nex
 
    return false;
 
+}
+
+bool Physic::checkForCircleCollision(std::vector<Entity*> entities, int nextX, int nextY)
+{
+   int xCenter = (nextX + ballWidth / 2); //get the x value of center of circle
+   int yCenter = (nextY + ballHeight / 2); //get the y value of the center of circle
+   int closestX;
+   int closestY;
+   for (int i = 0; i < entities.size(); i++)
+   {
+      if (xCenter < entities[i]->getX())
+      {
+         closestX = entities[i]->getX();
+      }
+      else if (xCenter > entities[i]->getX() + entities[i]->getW())
+      {
+         closestX = entities[i]->getX() + entities[i]->getW();
+      }
+      else
+      {
+         closestX = xCenter;
+      }
+
+      if (yCenter < entities[i]->getY())
+      {
+         closestY = entities[i]->getY();
+      }
+      else if (yCenter > entities[i]->getY() + entities[i]->getH())
+      {
+         closestY = entities[i]->getY() + entities[i]->getH();
+
+      }
+      else
+      {
+         closestY = yCenter;
+      }
+
+      if (distance(xCenter, yCenter, closestX, closestY) < (ballWidth / 2))
+      {
+         return true;
+      }
+   }
+
+   return false;
 }
