@@ -4,8 +4,8 @@
 
 Physic::Physic(Entity* entity)
 {
-   ballWidth = entity.getW();
-   ballHeight = entity.getH();
+   ballWidth = entity->getW();
+   ballHeight = entity->getH();
 }
 
 void changeXDirection(double* x)
