@@ -283,7 +283,7 @@ void UI::showText(std::string text, std::string &fontName, int fontSize, int x, 
 		return;
 	}
 
-	SDL_Color color = { 255, 255, 255, 255 };
+	SDL_Color color = { 0, 0, 0, 0 };
 
 	SDL_Surface* textSurface = TTF_RenderText_Blended(font, text.c_str(), color);
 	if (textSurface == nullptr)
