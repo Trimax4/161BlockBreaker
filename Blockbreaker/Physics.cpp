@@ -15,6 +15,7 @@ Physic::Physic(Entity* entity)
 {
    ballWidth = entity->getW();
    ballHeight = entity->getH();
+   ball = entity;
 }
 
 void changeXDirection(double* x)
@@ -66,7 +67,10 @@ bool Physic::checkForCollision(std::vector<Entity*> entities, int nextX, int nex
          for (int z = 0; z < entities.size(); z++)
             //go through vector of entities
          {
-
+            if (entities[z] == ball)
+            {
+               continue;
+            }
             //same logic as beforehand just in differen scenario
             if (x >= entities[z]->getX() && x <= entities[z]->getX() + entities[z]->getW())
             {
@@ -103,6 +107,10 @@ bool Physic::checkForCircleCollision(std::vector<Entity*> entities, int nextX, i
    int closestY;
    for (int i = 0; i < entities.size(); i++)
    {
+      if (entities[i] == ball)
+      {
+         continue;
+      }
       if (xCenter < entities[i]->getX())
       {
          closestX = entities[i]->getX();

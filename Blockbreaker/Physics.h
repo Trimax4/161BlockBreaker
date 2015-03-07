@@ -18,4 +18,5 @@ class Physic
    private:
       int ballWidth;
       int ballHeight;
+      Entity* ball;
 };
