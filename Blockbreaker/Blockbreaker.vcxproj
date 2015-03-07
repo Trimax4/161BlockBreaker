@@ -75,6 +75,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="E:\SDL\HW7Demo\HW7Demo\Entity.cpp" />
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Physics.cpp" />
@@ -84,6 +85,7 @@
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="E:\SDL\HW7Demo\HW7Demo\Entity.h" />
     <ClInclude Include="EventDispatcher.h" />
     <ClInclude Include="IEventHandler.h" />
     <ClInclude Include="Physics.h" />
