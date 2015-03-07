@@ -75,6 +75,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Physics.cpp" />
@@ -85,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EventDispatcher.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="IEventHandler.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Sound.h" />
