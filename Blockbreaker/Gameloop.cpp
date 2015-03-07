@@ -33,7 +33,6 @@ void Gameloop::Run()
 		{
 			pastfps = now;
 		}
-		//DrawFrame();
 	}
 	Exit();
 }
