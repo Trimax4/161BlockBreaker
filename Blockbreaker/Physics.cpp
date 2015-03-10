@@ -205,11 +205,51 @@ void Physic::changeSpeed(double newSpeed, double* x, double* y)
    double xSpeed = *x;
    double ySpeed = *y;
 
-   double angle = std::atan(ySpeed/xSpeed);
+   double angle = std::atan(ySpeed / xSpeed);
+   angle = std::abs(angle);
 
-   
-   *x = std::cos(angle) * newSpeed;
-   *y = std::sin(angle) * newSpeed;
+   if (xSpeed == 0 && ySpeed != 0)
+   {
+      if (ySpeed < 0)
+      {
+         *y = -newSpeed;
+      }
+      else
+      {
+         *y = newSpeed;
+      }
+   }
+   else if (xSpeed != 0 && ySpeed == 0)
+   {
+      if (xSpeed < 0)
+      {
+         *x = -newSpeed;
+      }
+      else
+      {
+         *x = newSpeed;
+      }
+   }
+   else if (xSpeed < 0 && ySpeed < 0)
+   {
+      *x = -std::cos(angle) * newSpeed;
+      *y = -std::sin(angle) * newSpeed;
+   }
+   else if (xSpeed > 0 && ySpeed < 0)
+   {
+      *x = std::cos(angle) * newSpeed;
+      *y = -std::sin(angle) * newSpeed;
+   }
+   else if (xSpeed < 0 && ySpeed > 0)
+   {
+      *x = -std::cos(angle) * newSpeed;
+      *y = std::sin(angle) * newSpeed;
+   }
+   else
+   {
+      *x = std::cos(angle) * newSpeed;
+      *y = std::sin(angle) * newSpeed;
+   }
 }
 
 
