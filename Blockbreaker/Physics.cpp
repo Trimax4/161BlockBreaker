@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include <cmath>
 
+
 namespace
 {
    double distance(int x1, int y1, int x2, int y2)
@@ -28,7 +29,7 @@ void changeYDirection(double* y)
    *y = -1 * (*y);
 }
 
-//pass in the width of the object, height of object, its upper left hands coordinates, and the next position of the ball
+//USED FOR RECTANGLE COLLISION, NOT RELEVANT TO OUR DEMOpass in the width of the object,, height of object, its upper left hands coordinates, and the next position of the ball
 bool Physic::checkForCollision(std::vector<Entity*> entities, int nextX, int nextY)
 {
 
@@ -80,10 +81,10 @@ bool Physic::checkForCollision(std::vector<Entity*> entities, int nextX, int nex
                }
             }
 
-            else if (x + ballWidth >= entities[z]->getX() && x + ballWidth <= entities[z]->getX() + entities[z]->getWidth())
+            else if (x + ballWidth >= entities[z]->getX() && x + ballWidth <= entities[z]->getX() + entities[z]->getW())
                //if right edge between entities x and y
             {
-               if (nextY >= entities[z]->getY() && nextY <= entities[z]->getY() + entities[z]->getHeight())
+               if (nextY >= entities[z]->getY() && nextY <= entities[z]->getY() + entities[z]->getH())
                {
                   return true;
                }
