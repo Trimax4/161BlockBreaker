@@ -267,7 +267,122 @@ void UI::stretch(std::string element, int stretch)
 
 
 
-void UI::showText(std::string text, std::string &fontName, int fontSize, int x, int y, SDL_Renderer* renderer)
+/*void UI::showText(std::string text, std::string &fontName, int fontSize, int x, int y, SDL_Renderer* renderer)
+{
+if (TTF_Init() != 0){
+std::cout << "TTF_Init" << std::endl;
+SDL_Quit();
+return;
+}
+font = TTF_OpenFont(fontName.c_str(), fontSize);
+if (font == nullptr)
+{
+std::string error = SDL_GetError();
+std::cout << error << std::endl;
+TTF_CloseFont(font);
+return;
+}
+
+SDL_Color color = { 0, 0, 0, 0 };
+
+SDL_Surface* textSurface = TTF_RenderText_Blended(font, text.c_str(), color);
+if (textSurface == nullptr)
+{
+std::cout << "Can't create surface" << std::endl;
+return;
+}
+
+int text_width = textSurface->w;
+int text_height = textSurface->h;
+
+
+SDL_Rect dst;
+dst.x = x;
+dst.y = y;
+dst.w = text_width;
+dst.h = text_height;
+
+SDL_Texture *texture_message = SDL_CreateTextureFromSurface(renderer, textSurface);
+if (texture_message == nullptr)
+{
+std::cout << "Can't create texture" << std::endl;
+return;
+}
+
+SDL_RenderCopy(renderer, texture_message, NULL, &dst);
+SDL_FreeSurface(textSurface);
+SDL_DestroyTexture(texture_message);
+
+}*/
+
+SDL_Color UI::selectColor(std::string text_color)
+{
+	if (text_color == "white" || text_color == "WHITE" || text_color == "White")
+	{
+		std::cout << "in here" << std::endl;
+		SDL_Color color = { 255, 255, 255, 255 };
+		return color;
+	}
+	else if (text_color == "black" || text_color == "BLACK" || text_color == "Black")
+	{
+		SDL_Color color = { 0, 0, 0, 0 };
+		return color;
+	}
+	else if (text_color == "blue" || text_color == "BLUE" || text_color == "Blue")
+	{
+		SDL_Color color = { 0, 0, 255, 0 };
+		return color;
+	}
+	else if (text_color == "red" || text_color == "RED" || text_color == "Red")
+	{
+		SDL_Color color = { 255, 0, 0, 0 };
+		return color;
+	}
+	else if (text_color == "green" || text_color == "GREEN" || text_color == "Green")
+	{
+		SDL_Color color = { 0, 255, 0, 0 };
+		return color;
+	}
+	else if (text_color == "yellow" || text_color == "YELLOW" || text_color == "Yellow")
+	{
+		SDL_Color color = { 255, 255, 0, 0 };
+		return color;
+	}
+	else if (text_color == "orange" || text_color == "ORANGE" || text_color == "Orange")
+	{
+		SDL_Color color = { 255, 128, 0, 0 };
+		return color;
+	}
+	else if (text_color == "cyan" || text_color == "CYAN" || text_color == "Cyan")
+	{
+		SDL_Color color = { 0, 255, 255, 0 };
+		return color;
+	}
+	else if (text_color == "purple" || text_color == "PURPLE" || text_color == "Purple")
+	{
+		SDL_Color color = { 127, 0, 255, 0 };
+		return color;
+	}
+	else if (text_color == "gray" || text_color == "GRAY" || text_color == "Gray")
+	{
+		SDL_Color color = { 128, 128, 128, 0 };
+		return color;
+	}
+	else if (text_color == "pink" || text_color == "PINK" || text_color == "Pink")
+	{
+		SDL_Color color = { 255, 0, 127, 0 };
+		return color;
+	}
+	else if (text_color == "light green" || text_color == "LIGHT GREEN" || text_color == "Light Green")
+	{
+		SDL_Color color = { 128, 255, 0, 0 };
+		return color;
+	}
+
+
+}
+
+void UI::showText(std::string text, std::string &fontName, int fontSize, int x, int y, SDL_Renderer* renderer, SDL_Color color)
 {
 	if (TTF_Init() != 0){
 		std::cout << "TTF_Init" << std::endl;
@@ -283,7 +398,8 @@ void UI::showText(std::string text, std::string &fontName, int fontSize, int x, 
 		return;
 	}
 
-	SDL_Color color = { 0, 0, 0, 0 };
+	//SDL_Color color = { 255, 0, 0, 0 };
+
 
 	SDL_Surface* textSurface = TTF_RenderText_Blended(font, text.c_str(), color);
 	if (textSurface == nullptr)

@@ -46,13 +46,15 @@ public:
 	//Use the function of the requested button, if it has been activated, otherwise do nothing
 	void useButton(std::string element);
 
-	void showText(std::string text, std::string &fontName, int fontSize, int x, int y, SDL_Renderer* renderer);
+	SDL_Color selectColor(std::string text_color);
 
-	// The private part of the class is given as a hint or suggestion.
-	// In homework 3 you can make any modifications you want to the class's innards.
+	void showText(std::string text, std::string &fontName, int fontSize, int x, int y, SDL_Renderer* renderer, SDL_Color color);
+
+
 private:
 	SDL_Renderer* renderer;
 	TTF_Font* font;
+	//SDL_Color color;
 
 	struct button
 	{
