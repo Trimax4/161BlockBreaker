@@ -14,6 +14,8 @@ class Physic
       void changeYDirection(double* y);
       void changeXSpeed(double* x, double newSpeed);
       void changeYSpeed(double* y, double newSpeed);
+      void changeDirection(double angle, double* x, double *y);
+      void changeSpeed(double newSpeed, double* x, double* y);
 
    private:
       int ballWidth;

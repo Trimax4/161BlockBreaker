@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include <cmath>
 
+#define PI 3.14159265
 
 namespace
 {
@@ -147,3 +148,31 @@ bool Physic::checkForCircleCollision(std::vector<Entity*> entities, int nextX, i
 
    return false;
 }
+
+
+// use 0 to 180 for top two quadrants, -0 to -180 for bottom two quadrants, pass in new angle and velocity in x and y direction
+void Physic::changeDirection(double angle, double* x, double *y)
+{  
+   
+   double xSpeed = *x;
+   double ySpeed = *y;
+   double radians = angle * (PI / 180);
+
+   *x = -std::cos(PI - radians) * (std::sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
+   *y = std::sin(PI - radians) * (std::sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
+   
+}
+
+void Physic::changeSpeed(double newSpeed, double* x, double* y)
+{  
+   double xSpeed = *x;
+   double ySpeed = *y;
+
+   double angle = std::atan(ySpeed/xSpeed);
+
+   
+   *x = std::cos(angle) * newSpeed;
+   *y = std::sin(angle) * newSpeed;
+}
+
+
