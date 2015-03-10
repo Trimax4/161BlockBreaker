@@ -76,6 +76,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlockDemo.cpp" />
+    <ClCompile Include="Controls.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="Gameloop.cpp" />
@@ -87,6 +88,7 @@
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Controls.h" />
     <ClInclude Include="EventDispatcher.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Gameloop.h" />
@@ -98,6 +100,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Documentation\ICS 161 HW8.pdf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\..\..\..\Desktop\sound assets\block break.wav" />
+    <Media Include="..\..\..\..\Desktop\sound assets\Theme.wav" />
+    <Media Include="..\..\..\..\Desktop\sound assets\wallBounce.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Desktop\Art assets\background.jpg" />
+    <Image Include="..\..\..\..\Desktop\Art assets\Ball.png" />
+    <Image Include="..\..\..\..\Desktop\Art assets\Block - black.jpg" />
+    <Image Include="..\..\..\..\Desktop\Art assets\Block - blue.jpg" />
+    <Image Include="..\..\..\..\Desktop\Art assets\Block - green.jpg" />
+    <Image Include="..\..\..\..\Desktop\Art assets\Block - orange.jpg" />
+    <Image Include="..\..\..\..\Desktop\Art assets\Block - pink.jpg" />
+    <Image Include="..\..\..\..\Desktop\Art assets\Block - red.jpg" />
+    <Image Include="..\..\..\..\Desktop\Art assets\Block - white.jpg" />
+    <Image Include="..\..\..\..\Desktop\Art assets\Block - yellow.jpg" />
+    <Image Include="..\..\..\..\Desktop\Art assets\Paddle.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
