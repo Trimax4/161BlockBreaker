@@ -157,11 +157,27 @@ void Physic::changeDirection(double angle, double* x, double *y)
    double xSpeed = *x;
    double ySpeed = *y;
    double radians = angle * (PI / 180);
-
-   *x = -std::cos(PI - radians) * (std::sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
-   *y = std::sin(PI - radians) * (std::sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
+   if (x >= 0 && angle <= 180)
+   {
+      *x = -std::cos(PI - radians) * (std::sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
+      *y = std::sin(PI - radians) * (std::sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
+   }
+   else if (angle >= -90 && x < 0)
+   {
+      *x = std::cos(radians) * (std::sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
+      *y = std::sin(radians) * (std::sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
+   }
+   else
+   {
+      *x = std::cos(180 - std::abs(radians)) * (std::sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
+      *y = std::cos(180 - std::abs(radians)) * (std::sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
+   }
    
 }
+
+//xSpeed = 5 ySpeed = -4
+//radians = -90 * PI/180 = -PI/2
+//*x = 
 
 void Physic::changeSpeed(double newSpeed, double* x, double* y)
 {  
