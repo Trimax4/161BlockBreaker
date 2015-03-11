@@ -1,0 +1,9 @@
+﻿Build started 1/8/2015 10:58:48 PM.
+     1>Project "C:\Users\Leo\Documents\SDL\SDL2-2.0.3\VisualC\SDL\SDL_VS2013.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         SDL_VS2013.vcxproj -> C:\Users\Leo\Documents\SDL\SDL2-2.0.3\VisualC\SDL\Win32\Debug\SDL2.dll
+     1>Done Building Project "C:\Users\Leo\Documents\SDL\SDL2-2.0.3\VisualC\SDL\SDL_VS2013.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.34
