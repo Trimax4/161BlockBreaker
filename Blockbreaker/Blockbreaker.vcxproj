@@ -99,9 +99,6 @@
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Documentation\ICS 161 HW8.pdf" />
-  </ItemGroup>
-  <ItemGroup>
     <Media Include="..\..\..\..\Desktop\sound assets\block break.wav" />
     <Media Include="..\..\..\..\Desktop\sound assets\Theme.wav" />
     <Media Include="..\..\..\..\Desktop\sound assets\wallBounce.wav" />
