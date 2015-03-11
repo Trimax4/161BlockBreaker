@@ -141,7 +141,8 @@ bool Physic::checkForCircleCollision(std::vector<Entity*> entities, int nextX, i
       }
 
       if (distance(xCenter, yCenter, closestX, closestY) < (ballWidth / 2))
-      {
+      {  
+         entities.erase(entities.begin() + i);
          return true;
       }
    }
