@@ -347,7 +347,6 @@
     <None Include="..\Other resources\SDL\Debug\vc120.idb" />
     <None Include="..\Other resources\SDL\Debug\vc120.pdb" />
     <None Include="..\Other resources\SDL\Debug\zlib1.dll" />
-    <None Include="BlockProps.props" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Other resources\SDL\Debug\LICENSE.jpeg.txt" />

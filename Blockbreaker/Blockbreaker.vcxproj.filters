@@ -808,9 +808,6 @@
     <None Include="..\Other resources\include\SDL_config.h.in">
       <Filter>Other resources</Filter>
     </None>
-    <None Include="BlockProps.props">
-      <Filter>Other resources</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Other resources\SDL\Debug\LICENSE.jpeg.txt">
