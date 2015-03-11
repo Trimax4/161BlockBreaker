@@ -101,38 +101,34 @@ bool Physic::checkForCollision(std::vector<Entity*> entities, int nextX, int nex
 
 }
 
-bool Physic::checkForCircleCollision(std::vector<Entity*> entities, int nextX, int nextY)
+bool Physic::checkForCircleCollision(Entity* entity, int nextX, int nextY)
 {
    int xCenter = (nextX + ballWidth / 2); //get the x value of center of circle
    int yCenter = (nextY + ballHeight / 2); //get the y value of the center of circle
    int closestX;
    int closestY;
-   for (int i = 0; i < entities.size(); i++)
-   {
-      if (entities[i] == ball)
+   
+      
+      if (xCenter < entity->getX())
       {
-         continue;
+         closestX = entity->getX();
       }
-      if (xCenter < entities[i]->getX())
+      else if (xCenter > entity->getX() + entity->getW())
       {
-         closestX = entities[i]->getX();
-      }
-      else if (xCenter > entities[i]->getX() + entities[i]->getW())
-      {
-         closestX = entities[i]->getX() + entities[i]->getW();
+         closestX = entity->getX() + entity->getW();
       }
       else
       {
          closestX = xCenter;
       }
 
-      if (yCenter < entities[i]->getY())
+      if (yCenter < entity->getY())
       {
-         closestY = entities[i]->getY();
+         closestY = entity->getY();
       }
-      else if (yCenter > entities[i]->getY() + entities[i]->getH())
+      else if (yCenter > entity->getY() + entity->getH())
       {
-         closestY = entities[i]->getY() + entities[i]->getH();
+         closestY = entity->getY() + entity->getH();
 
       }
       else
@@ -141,13 +137,12 @@ bool Physic::checkForCircleCollision(std::vector<Entity*> entities, int nextX, i
       }
 
       if (distance(xCenter, yCenter, closestX, closestY) < (ballWidth / 2))
-      {  
-         entities.erase(entities.begin() + i);
+      {
          return true;
       }
-   }
+   
 
-   return false;
+      return false;
 }
 
 

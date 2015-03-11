@@ -9,7 +9,7 @@ class Physic
    public:
       Physic(Entity* entity);
       bool checkForCollision(std::vector<Entity*> entities, int nextX, int nextY);
-      bool checkForCircleCollision(std::vector<Entity*> entities, int nextX, int nextY);
+      bool checkForCircleCollision(Entity* entity, int nextX, int nextY);
       void changeXDirection(double* x);
       void changeYDirection(double* y);
       void changeXSpeed(double* x, double newSpeed);
