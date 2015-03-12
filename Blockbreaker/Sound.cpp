@@ -47,7 +47,7 @@ void Sound::playMusic(int channel)
 		}
 		else
 		{
-			std::cout << "music is playing" << std::endl;
+			//std::cout << "music is playing" << std::endl;
 		}
 	}
 	else
