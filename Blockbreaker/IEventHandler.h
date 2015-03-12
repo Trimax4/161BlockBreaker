@@ -8,6 +8,12 @@ struct Event
 	int arg1, arg2;
 };
 
+/*class Event
+{
+public:
+int Type;
+int arg1, arg2;
+};*/
 
 enum EventType
 {
@@ -23,6 +29,10 @@ enum EventType
 	E_PAUSEGAME, E_GAMEOVER, E_CONTINUE,
 	E_INCREMENT_SCORE,
 
+	// GUI windows
+	E_ESC_MENU, E_RESUME_BUTTON, E_RESTART_BUTTON,
+	E_SUBMENU,
+
 	// Exit the game
 	E_QUIT
 };
@@ -35,7 +45,7 @@ public:
 	IEventHandler * GetNextHandler() { return _nextHandler; }
 	void SetNextHandler(IEventHandler * next) { _nextHandler = next; }
 
-	IEventHandler() : _nextHandler(0) 
+	IEventHandler() : _nextHandler(0)
 	{
 		EventDispatcher::Get()->RegisterHandler(this);
 	}

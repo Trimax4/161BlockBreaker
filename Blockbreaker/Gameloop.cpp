@@ -1,14 +1,71 @@
-#include <Windows.h>
-#include "SDL.h"
+#include <windows.h>
+#include <time.h>
 #include "SDL_image.h"
-#include "cleanup.h"
-#include "res_path.h"
+#pragma comment(lib,"user32.lib") 
+#pragma comment(lib,"winmm.lib")
 
-#include "Sprite.h"
-#include "Entity.h"
+//#include "Controls.h"
+#include "EventDispatcher.h"
+#include "res_path.h"
 #include "Gameloop.h"
 
+#define PI 3.14159256
+
 const int UPDATE_INTERVAL = 1000 / 60;
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
+
+int get_num_brick_X(int w)
+{
+	if (SCREEN_WIDTH / w == 0)
+		return SCREEN_WIDTH / w - 1;
+	return SCREEN_WIDTH / w;
+}
+
+void get_bricks(int w, int h, SDL_Renderer *renderer, std::string filePath)
+{
+	int num_brick_X = get_num_brick_X(w);
+	int num_brick_Y = SCREEN_HEIGHT / h / 2 - 2;
+	int offset = (SCREEN_WIDTH - (num_brick_X * w)) / (num_brick_X - 1);
+
+	Entity* brick;
+	int x = 0, y = 0;
+	for (int i = 0; i < num_brick_X; i++)
+	{
+		for (int j = 0; j < num_brick_Y; j++)
+		{
+			brick = new Entity(renderer);
+			brick->load(filePath, w, h);
+			brick->setPos(x, y);
+			y += offset + h;
+		}
+		y = 0;
+		x += offset + w;
+	}
+}
+
+void move_ball(Entity *ball, double angle)
+{
+	static int velX = -5 * cos(angle * PI / 180.0);
+	static int velY = -5 * sin(angle * PI / 180.0);
+	ball->move(velX, velY);
+	if (ball->getX() < 0)
+	{
+		//flip a velocity
+	}
+	else if (ball->getX() > SCREEN_WIDTH)
+	{
+		//flip a velocity
+	}
+	if (ball->getY() < 0)
+	{
+		//flip a velocity
+	}
+	else if (ball->getY() > SCREEN_HEIGHT)
+	{
+		//flip a velocity
+	}
+}
 
 void Gameloop::Run()
 {
@@ -26,8 +83,6 @@ void Gameloop::Run()
 		{
 			past = now;
 			DrawFrame();
-			//_running = false;
-			std::cout << "updating interval" << std::endl;
 		}
 		if (now - pastfps >= 1000)
 		{
@@ -74,8 +129,15 @@ void Gameloop::Initialize()
 		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (renderer == nullptr){
 		logSDLError(std::cout, "CreateRenderer");
-		cleanup(window);
+		SDL_DestroyWindow(window);
 		SDL_Quit();
+		_running = false;
+		return;
+	}
+
+	ui = new UI(renderer);
+	if (ui->init() == 1)
+	{
 		_running = false;
 		return;
 	}
@@ -93,10 +155,9 @@ void Gameloop::Initialize()
 		_running = false;
 		return;
 	}
-	//std::cout << resPath << std::endl;
 
 	player = new Entity(renderer);
-	if (!player->load(resPath + "sprite.png", 144, 256))
+	if (!player->load(resPath + "Paddle.png", 125, 20))
 	{
 		logSDLError(std::cout, "LoadTexture");
 		SDL_DestroyWindow(window);
@@ -105,63 +166,146 @@ void Gameloop::Initialize()
 		_running = false;
 		return;
 	}
+	player->setPos(SCREEN_WIDTH / 2 - (125 / 2), SCREEN_HEIGHT - 30);
 
-	player->setPos(50, 50);
-	std::cout << "Finished initializing." << std::endl;
+	//ball = new Entity(renderer);
+	//if (!ball->load(resPath + "ball.png", 30, 30))
+	//{
+	//	logSDLError(std::cout, "LoadBall");
+	//	SDL_DestroyWindow(window);
+	//	SDL_DestroyRenderer(renderer);
+	//	SDL_Quit();
+	//	_running = false;
+	//	return;
+	//}
+	//int ball_start_X = (SCREEN_WIDTH / 2) - (ball->getW() / 2);
+	//int ball_start_Y = SCREEN_HEIGHT / 2;
+	//ball->setPos(ball_start_X, ball_start_Y);
+
+	/*paddle = new Entity(renderer);
+	if (!paddle->load(resPath + "paddle.png", 120, 30))
+	{
+	logSDLError(std::cout, "LoadPaddle");
+	SDL_DestroyWindow(window);
+	SDL_DestroyRenderer(renderer);
+	SDL_Quit();
+	_running = false;
+	return;
+	}
+	int paddle_start_X = (SCREEN_WIDTH / 2) - (paddle->getW() / 2);
+	int paddle_start_Y = SCREEN_HEIGHT - 100;
+	paddle->setPos(paddle_start_X, paddle_start_Y);*/
+
+	//get_bricks(60, 30, renderer, resPath + "brick.png");
+	//srand(time(NULL));
+
+	//std::string soundPath = getResourcePath("sound");
+	//std::string musicPath = getResourcePath("music");
+	////std::cout << (soundPath + "wallBounce.wav");
+	//upSound = new Sound(soundPath + "wallBounce.wav", "sound");
+	//music = new Sound(musicPath + "Theme.wav", "music");
+
+	//player->setPos(50, 50);
+	std::cout << "Initializing complete." << std::endl;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Update the game logic
 void Gameloop::Update()
 {
-	// update inputs-controls -- temporary controls
-	SDL_Event e;
-	while (SDL_PollEvent(&e))
-	{
-		if (e.type == SDL_QUIT){
-			_running = false;
-		}
-		if (e.type == SDL_KEYDOWN)
-		{
-			if (e.key.keysym.sym == SDLK_RIGHT)
-			{
-				player->move(5, 0);
-			}
-			else if (e.key.keysym.sym == SDLK_LEFT)
-			{
-				player->move(-5, 0);
-			}
-			else if (e.key.keysym.sym == SDLK_UP)
-			{
-				player->move(0, -5);
-			}
-			else if (e.key.keysym.sym == SDLK_DOWN)
-			{
-				player->move(0, 5);
-			}
-		}
-	}
-	// update GUI
-	bg->update();
-	player->update();
+	//Controls controls;
+	// Modify default controls to be left and right arrow keys
+
+
+	//if (music->isMusicNull() == false)
+	//{
+	//	music->playMusic(-1);
+	//}
+	//SDL_Event e;
+	//while (SDL_PollEvent(&e))
+	//{
+	//	if (e.type == SDL_QUIT){
+	//		EventDispatcher::Get()->SendEvent(E_QUIT);
+	//	}
+	//	if (controls.isKeyDown())
+	//	{
+	//		if (controls.checkForKey(SDLK_RIGHT))
+	//		{
+	//			player->move(5, 0);
+	//			//paddle->move(10, 0);
+	//		}
+	//		else if (controls.checkForKey(SDLK_LEFT))
+	//		{
+	//			player->move(-5, 0);
+	//			//paddle->move(-10,0);
+	//		}
+	//		else if (controls.checkForKey(SDLK_UP))
+	//		{
+	//			player->move(0, -5);
+	//		}
+	//		else if (controls.checkForKey(SDLK_DOWN))
+	//		{
+	//			player->move(0, 5);
+	//			if (upSound->isSoundNull() == false)
+	//			{
+	//				upSound->playSound(-1, 0);
+	//			}
+	//		}
+	//		else if (e.key.keysym.sym == SDLK_q)
+	//		{
+	//			EventDispatcher::Get()->SendEvent(E_ESC_MENU);
+	//		}
+	//		else if (e.key.keysym.sym == SDLK_e)
+	//		{
+	//			EventDispatcher::Get()->SendEvent(E_SUBMENU);
+	//		}
+	//		else if (e.key.keysym.sym == SDLK_w)
+	//		{
+	//			EventDispatcher::Get()->SendEvent(E_RESUME_BUTTON);
+	//		}
+	//	}
+	//}
+
+	//bg->update();
+	//player->update();
+
+	/*double angle = rand() % 360;
+	move_ball(ball, angle);*/
+
 	// update events
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// Handle events in Gameloop class
+void Gameloop::EventHandler(const Event &e)
+{
+	switch (e.Type)
+	{
+	case E_QUIT:
+		_running = false;
+		break;
+	}
+}
+
+
 // Draw the frames
 void Gameloop::DrawFrame()
 {
 	SDL_RenderClear(renderer);
 	bg->render();
 	player->render();
+	for (auto it = Entity::EntityList.begin(); it != Entity::EntityList.end(); it++)
+		(*it)->render();
+	ui->renderGUI();
 	SDL_RenderPresent(renderer);
 }
 
 // Exit the game after shutting down classes and cleaning up resources
 void Gameloop::Exit()
 {
-	std::cout << "Shutting down." << std::endl;
-	cleanup(renderer, window);
+	std::cout << "Exiting game." << std::endl;
+	SDL_DestroyWindow(window);
+	SDL_DestroyRenderer(renderer);
 	IMG_Quit();
 	SDL_Quit();
 }

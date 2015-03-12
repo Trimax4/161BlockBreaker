@@ -1,6 +1,10 @@
-#include "UI.h"
+#include <Windows.h>
+#include <sstream>
 #include <iostream>
-#include <string>
+#include "SDL_image.h"
+#include "res_path.h"
+#include "cleanup.h"
+#include "UI.h"
 
 
 /*
@@ -431,3 +435,128 @@ void UI::showText(std::string text, std::string &fontName, int fontSize, int x, 
 
 }
 
+void UI::renderGUI()
+{
+	if (toggle_esc)
+	{
+		show("esc_menu");
+		show("resume_button");
+		show("restart_button");
+		show("quit_button");
+	}
+	if (toggle_sub)
+	{
+		show("sub_menu");
+		std::string resPath = getResourcePath("UIDemo");
+		SDL_Color color = selectColor("Blue");
+		showText("TEST", resPath + "BLOCKUP.ttf", 50, 35, 20, renderer, color);
+	}
+}
+
+int UI::init()
+{
+	std::string resPath = getResourcePath("UIDemo");
+	std::cout << resPath << std::endl;
+
+	esc_menu = loadTexture(resPath + "menu.png", renderer);
+	if (esc_menu == nullptr)
+	{
+		cleanup(esc_menu, renderer);
+		IMG_Quit();
+		SDL_Quit();
+		return 1;
+	}
+
+	quit_button = loadTexture(resPath + "button_quit.png", renderer);
+	if (esc_menu == nullptr)
+	{
+		cleanup(quit_button, renderer);
+		IMG_Quit();
+		SDL_Quit();
+		return 1;
+	}
+
+	quit_button_pushed = loadTexture(resPath + "button_quit_pushed.png", renderer);
+	if (esc_menu == nullptr)
+	{
+		cleanup(quit_button, renderer);
+		IMG_Quit();
+		SDL_Quit();
+		return 1;
+	}
+
+	resume_button = loadTexture(resPath + "button_resume.png", renderer);
+	if (esc_menu == nullptr)
+	{
+		cleanup(resume_button, renderer);
+		IMG_Quit();
+		SDL_Quit();
+		return 1;
+	}
+
+	resume_button_pushed = loadTexture(resPath + "button_resume_pushed.png", renderer);
+	if (esc_menu == nullptr)
+	{
+		cleanup(resume_button, renderer);
+		IMG_Quit();
+		SDL_Quit();
+		return 1;
+	}
+
+	restart_button = loadTexture(resPath + "button_restart.png", renderer);
+	if (esc_menu == nullptr)
+	{
+		cleanup(restart_button, renderer);
+		IMG_Quit();
+		SDL_Quit();
+		return 1;
+	}
+
+	restart_button_pushed = loadTexture(resPath + "button_restart_pushed.png", renderer);
+	if (esc_menu == nullptr)
+	{
+		cleanup(restart_button, renderer);
+		IMG_Quit();
+		SDL_Quit();
+		return 1;
+	}
+
+	sub_menu = loadTexture(resPath + "menu.png", renderer);
+	if (esc_menu == nullptr)
+	{
+		cleanup(esc_menu, renderer);
+		IMG_Quit();
+		SDL_Quit();
+		return 1;
+	}
+
+	makeMenu("esc_menu", esc_menu, 220, 45);
+	makeButton("quit_button", quit_button, quit_button_pushed, 240, 275);
+	makeButton("restart_button", restart_button, restart_button_pushed, 240, 185);
+	makeButton("resume_button", resume_button, resume_button_pushed, 240, 95);
+	makeMenu("sub_menu", sub_menu, 0, 0);
+
+	// Initialize menu toggles
+	toggle_esc = false, toggle_sub = false;
+
+	std::cout << "UI initializing complete." << std::endl;
+	return 0;
+}
+
+void UI::logSDLError(std::ostream &os, const std::string &msg)
+{
+	os << msg << " error: " << SDL_GetError() << std::endl;
+	std::ostringstream errMsg;
+	errMsg << " error: " << SDL_GetError() << std::endl;
+	OutputDebugString(errMsg.str().c_str());
+}
+
+SDL_Texture* UI::loadTexture(const std::string &file, SDL_Renderer *ren)
+{
+	SDL_Texture *texture = IMG_LoadTexture(ren, file.c_str());
+	if (texture == nullptr)
+	{
+		logSDLError(std::cout, "LoadTexture");
+	}
+	return texture;
+}

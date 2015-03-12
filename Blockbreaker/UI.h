@@ -1,9 +1,10 @@
 #pragma once
 
-#include "SDL.h"
-#include "SDL_ttf.h"
 #include <vector>
 #include <map>
+#include "SDL.h"
+#include "SDL_ttf.h"
+#include "IEventHandler.h"
 
 class UI
 {
@@ -46,6 +47,18 @@ public:
 	//Use the function of the requested button, if it has been activated, otherwise do nothing
 	void useButton(std::string element);
 
+	// logs SDL errors
+	void logSDLError(std::ostream &os, const std::string &msg);
+
+	// loads SDL texture
+	SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren);
+
+	// Renders the active buttons and windows
+	void renderGUI();
+
+	// Initializes all the textures and windows, returns 0 on success
+	int init();
+
 	SDL_Color selectColor(std::string text_color);
 
 	void showText(std::string text, std::string &fontName, int fontSize, int x, int y, SDL_Renderer* renderer, SDL_Color color);
@@ -54,7 +67,6 @@ public:
 private:
 	SDL_Renderer* renderer;
 	TTF_Font* font;
-	//SDL_Color color;
 
 	struct button
 	{
@@ -71,8 +83,11 @@ private:
 
 	};
 
+	SDL_Texture *esc_menu, *quit_button, *quit_button_pushed,
+		*resume_button, *resume_button_pushed, *restart_button,
+		*restart_button_pushed, *sub_menu;
 	std::map<std::string, button> buttonList;
-
+	bool toggle_esc, toggle_sub;
 
 
 };

@@ -4,8 +4,12 @@
 #include <iostream>
 #include "SDL.h"
 #include "Entity.h"
+#include "UI.h"
+#include "Sound.h"
 
-class Gameloop
+#include "IEventHandler.h"
+
+class Gameloop : public IEventHandler
 {
 public:
 	void Run();
@@ -16,6 +20,7 @@ private:
 	void Exit();   // Shutdown classes and exit
 	void DrawFrame();     // Update and draw the game
 
+	void EventHandler(const Event &e); // Handles Events in the Gameloop class
 	void logSDLError(std::ostream &os, const std::string &msg); // logs SDL errors
 	SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren); // loads SDL texture
 
@@ -26,4 +31,8 @@ private:
 	SDL_Renderer *renderer;
 	Entity * bg;
 	Entity * player;
+	//Entity * ball;
+	//Entity * paddle;
+	UI * ui;
+	Sound* music, *upSound;
 };
